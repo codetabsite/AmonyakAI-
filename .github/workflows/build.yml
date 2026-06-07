@@ -21,7 +21,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/ollama/ollama/releases/latest/download/ollama-windows-amd64.exe" -OutFile "bin/ollama.exe"
 
       - name: Install deps
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build:win
@@ -49,7 +49,7 @@ jobs:
           chmod +x bin/ollama
 
       - name: Install deps
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build:linux
