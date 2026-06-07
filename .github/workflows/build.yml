@@ -17,8 +17,9 @@ jobs:
 
       - name: Download Ollama
         run: |
-          mkdir -p bin
-          Invoke-WebRequest -Uri "https://github.com/ollama/ollama/releases/latest/download/ollama-windows-amd64.exe" -OutFile "bin/ollama.exe"
+          mkdir bin
+          $url = (Invoke-WebRequest -Uri "https://api.github.com/repos/ollama/ollama/releases/latest" | ConvertFrom-Json).assets | Where-Object { $_.name -eq "ollama-windows-amd64.exe" } | Select-Object -ExpandProperty browser_download_url
+          Invoke-WebRequest -Uri $url -OutFile "bin/ollama.exe"
 
       - name: Install deps
         run: npm install
@@ -45,7 +46,8 @@ jobs:
       - name: Download Ollama
         run: |
           mkdir -p bin
-          curl -L "https://github.com/ollama/ollama/releases/latest/download/ollama-linux-amd64" -o bin/ollama
+          OLLAMA_URL=$(curl -s https://api.github.com/repos/ollama/ollama/releases/latest | grep -o '"browser_download_url": "[^"]*ollama-linux-amd64"' | cut -d'"' -f4)
+          curl -L "$OLLAMA_URL" -o bin/ollama
           chmod +x bin/ollama
 
       - name: Install deps
