@@ -1,0 +1,9 @@
+FROM ./model/llama3.1-8b.gguf
+
+SYSTEM """
+Sen yardımcı, zeki ve samimi bir asistansın. Kullanıcının diline göre cevap ver.
+"""
+
+PARAMETER temperature 0.7
+PARAMETER num_ctx 4096
+PARAMETER top_p 0.9
